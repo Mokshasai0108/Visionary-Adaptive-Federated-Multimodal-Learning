@@ -1,0 +1,84 @@
+# AFSPL Default Configuration
+project:
+  name: "AFSPL"
+  version: "1.0.0"
+  seed: 42
+  deterministic: true
+
+data:
+  train_dataset: "ms_coco"
+  eval_dataset: "flickr30k"
+  data_dir: "backend/data"
+  num_clients: 10
+  dirichlet_alpha: 0.5  # Non-IID level
+  train_split: 0.9
+  image_size: 224
+
+model:
+  clip_model: "ViT-B/32"
+  text_decoder: "google/flan-t5-small"
+  hidden_dim: 512
+  max_seq_len: 64
+
+prompt:
+  prompt_length: 16
+  init_strategy: "random"  # random | token_embed
+  init_std: 0.02
+
+fusion:
+  strategy: "dynamic"  # static | learnable | dynamic
+  static_alpha: 0.33
+  static_beta: 0.33
+  static_gamma: 0.34
+
+topk:
+  k_ratio: 0.3  # 30% of tokens
+  selection_method: "gradient"  # gradient | norm | attention
+  adaptive_k: false
+
+training:
+  batch_size: 8
+  learning_rate: 1.0e-4
+  weight_decay: 1.0e-5
+  max_rounds: 30
+  local_epochs: 1
+  gradient_accumulation_steps: 1
+  mixed_precision: false
+  num_workers: 2
+  device: "auto"  # auto | cpu | cuda
+
+loss:
+  lambda1: 1.0  # CE loss weight
+  lambda2: 0.5  # CLIP loss weight
+  clip_temperature: 0.07
+
+federated:
+  min_clients: 5
+  min_eval_clients: 3
+  fraction_fit: 0.3
+  fraction_evaluate: 0.5
+
+checkpoint:
+  save_dir: "backend/checkpoints"
+  save_every: 5
+  metric: "cider"  # cider | bleu
+
+early_stopping:
+  patience: 5
+  metric: "cider"
+  min_delta: 0.001
+
+logging:
+  log_dir: "backend/logs"
+  log_level: "INFO"
+  json_logs: true
+  csv_export: true
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  reload: false
+
+federated_server:
+  host: "0.0.0.0"
+  port: 8080
