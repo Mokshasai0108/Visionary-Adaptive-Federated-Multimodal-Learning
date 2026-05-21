@@ -1,6 +1,5 @@
 # Visionary: Adaptive Federated Multimodal Learning
 
-![Project Status](https://img.shields.io/badge/status-research--in--progress-orange)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![Framework](https://img.shields.io/badge/framework-FastAPI-green)
 ![Federated](https://img.shields.io/badge/federated-Flower-red)
